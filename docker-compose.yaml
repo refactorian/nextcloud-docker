@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  nc:
+    image: nextcloud
+    container_name: nextcloud
+    restart: always
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=refactorian
+      - POSTGRES_DB=refactorian
+      - POSTGRES_USER=refactorian
+    volumes:
+      - ./data/nextcloud:/var/www/html
+    ports:
+      - 80:80
+    networks:
+      - default
+
+  db:
+    image: postgres:16
+    container_name: nextcloud-db
+    restart: always
+    environment:
+      - POSTGRES_USER=refactorian
+      - POSTGRES_PASSWORD=refactorian
+      - POSTGRES_DB=refactorian
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - default
